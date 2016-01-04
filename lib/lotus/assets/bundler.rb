@@ -118,7 +118,7 @@ module Lotus
       def _compress(compressor, asset)
         _write(asset, compressor.compress(::File.read(asset)))
       rescue => e
-        warn "Skipping compression of: `#{ asset }'\n\nReason: #{ e }"
+        warn "Skipping compression of: `#{ asset }'\nReason: #{ e }\n\t#{ e.backtrace.join("\n\t") }\n"
       end
 
       # @since x.x.x
