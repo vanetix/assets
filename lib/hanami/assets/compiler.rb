@@ -31,11 +31,7 @@ module Hanami
 
       # @since 0.1.0
       # @api private
-      COMPILE_PATTERN = '*.*.*'.freeze # Example hello.js.es6
-
-      # @since 0.1.0
-      # @api private
-      EXTENSIONS = {'.js' => true, '.css' => true, '.map' => true}.freeze
+      COMPILE_PATTERN = /(\.\w+){2,}/ # Example hello.js.es6
 
       # @since 0.1.0
       # @api private
@@ -151,8 +147,8 @@ module Hanami
       # @since 0.1.0
       # @api private
       def compile?
-        @compile ||= ::File.fnmatch(COMPILE_PATTERN, ::File.basename(source.to_s)) &&
-          !EXTENSIONS[::File.extname(source.to_s)]
+        @compile ||= COMPILE_PATTERN.match(source.to_s) &&
+          Tilt.registered?(::File.extname(source.to_s)[1..-1])
       end
 
       # @since 0.1.0
